@@ -1,3 +1,41 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* ckeditor-dark.css */
+
+.ck-editor__editable_inline {
+    background-color: black !important; 
+    color: #ffffff;
+    border-radius: 0.75rem;
+    padding: 1rem;
+    min-height: 200px;
+}
+
+.ck.ck-toolbar {
+    background-color: black !important;
+    border-color: black !important;
+}
+
+.ck.ck-button.ck-on,
+.ck.ck-button:hover {
+    background-color: black !important;
+}
+
+.ck.ck-button .ck-button__label,
+.ck.ck-icon,
+.ck.ck-toolbar__separator {
+    color: #ffffff !important;
+}
+
+.ck.ck-editor__main>.ck-editor__editable:not(.ck-focused) {
+    border-color: black;
+}
+
+.ck-reset ul {
+    background-color: black !important;
+}
+
+.ck .ck-content{
+    padding: 0px 28px !important;
+}

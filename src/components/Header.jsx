@@ -1,35 +1,41 @@
-import React, { useState } from 'react';
-import { Menu, X } from 'lucide-react'; // Hamburger & close icons (install lucide-react if needed)
+import { Menu, X } from 'lucide-react';
+import React, { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom';
 
 const Header = () => {
     const [isMobileView, setIsMobileView] = useState(false);
+    const [isLogin, setIsLogin] = useState(false);
 
     const toggleMobileMenu = () => {
         setIsMobileView(!isMobileView);
     };
 
-    const navItems = ["Home", "Movies", "TV Shows", "Audio books", "Blog"];
+    const navigate = useNavigate();
 
     return (
-        <header className="fixed top-0 w-full z-50">
+        <header className="fixed top-0 w-full z-50 backdrop-blur-md border border-cyan-400/10 rounded-2xl shadow-[0_0_40px_rgba(0,255,255,0.05)]">
             <div className="container mx-auto px-4 py-4 flex justify-between items-center">
                 {/* Logo */}
                 <div className="logo">
-                    <a href="/">
+                    <Link to="/">
                         <img src="/logo-white.png" alt="logo" className="w-14" />
-                    </a>
+                    </Link>
                 </div>
 
                 {/* Desktop Navigation */}
                 <nav className="hidden md:flex gap-7 text-white">
-                    {navItems.map((item, idx) => (
-                        <li key={idx} className="list-none cursor-pointer hover:text-red-400 transition">{item}</li>
-                    ))}
+                    <li className="list-none cursor-pointer hover:text-red-400 transition">
+                        <Link to={"/"}>Home</Link>
+                    </li>
+                    <li className="list-none cursor-pointer hover:text-red-400 transition">Movies</li>
+                    <li className="list-none cursor-pointer hover:text-red-400 transition">TV Shows</li>
+                    <li className="list-none cursor-pointer hover:text-red-400 transition">Audio Books</li>
+                    <li className="list-none cursor-pointer hover:text-red-400 transition">DashBoard</li>
                 </nav>
 
                 {/* Login Button (Desktop) */}
                 <div className="hidden md:block">
-                    <button className="px-5 py-2 border bg-red-500 text-white rounded-xl hover:bg-red-600 transition">Login</button>
+                    <button className="px-5 py-2 border bg-indigo-600 text-white rounded-xl hover:bg-indigo-800 transition" onClick={() => navigate("/login")}>Login</button>
                 </div>
 
                 {/* Mobile Menu Button */}
@@ -42,19 +48,33 @@ const Header = () => {
 
             {/* Mobile Navigation */}
             {isMobileView && (
-                <div className="md:hidden px-6 pb-4 text-white bg-indigo-600">
-                    <ul className="flex flex-col gap-4 p-4 px-10">
-                        {navItems.map((item, idx) => (
-                            <li key={idx} className="cursor-pointer hover:text-red-400 transition">{item}</li>
-                        ))}
-                        <li>
-                            <button className="w-full px-4 py-2 mt-2 bg-red-500 rounded-xl hover:bg-red-600 transition">Login</button>
-                        </li>
-                    </ul>
+                <div className="md:hidden fixed top-16 left-0 w-full mt-5 z-40 bg-cyan-950 text-white rounded-b-2xl border-t animate-fade-slide">
+                    <div className="flex flex-col gap-6 px-6 py-6">
+                        <ul className="flex flex-col gap-4 text-lg font-semibold">
+                            <li className="list-none cursor-pointer hover:text-red-400 transition">
+                                <Link to={"/"}>Home</Link>
+                            </li>
+                            <li className="list-none cursor-pointer hover:text-red-400 transition">Movies</li>
+                            <li className="list-none cursor-pointer hover:text-red-400 transition">TV Shows</li>
+                            <li className="list-none cursor-pointer hover:text-red-400 transition">Audio Books</li>
+                            <li className="list-none cursor-pointer hover:text-red-400 transition">
+                                <Link to={"/dashboard"}>DashBoard</Link>
+                            </li>
+                        </ul>
+
+                        <div className="pt-2">
+                            <button
+                                className="w-full py-3 bg-gradient-to-r from-black via-[#0f172a] to-[#020617] text-white font-bold rounded-xl shadow-lg hover:scale-105 hover:from-red-500 hover:to-red-400 transition-all duration-300 ease-in-out"
+                                onClick={() => navigate("/login")}
+                            >
+                                Login
+                            </button>
+                        </div>
+                    </div>
                 </div>
             )}
         </header>
-    );
-};
+    )
+}
 
-export default Header;
+export default Header
