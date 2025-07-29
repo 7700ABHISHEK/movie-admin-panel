@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-const Login = ({ setIsLogin }) => {
+const LoginForm = ({ setIsLogin, isLogin }) => {
     const [input, setInput] = useState({ email: '', password: '' });
     const [errors, setErrors] = useState({});
     const navigate = useNavigate();
@@ -10,6 +10,7 @@ const Login = ({ setIsLogin }) => {
     const handleChange = (e) => {
         setInput({ ...input, [e.target.id]: e.target.value });
     };
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -24,6 +25,7 @@ const Login = ({ setIsLogin }) => {
         if (input.email === 'admin@gmail.com' && input.password === 'admin@123') {
             toast.success('Logged in successfully!', { autoClose: 1000 });
             navigate("/add-movie")
+            setIsLogin(true)
         } else {
             toast.error('Invalid email or password.');
         }
@@ -87,4 +89,4 @@ const Login = ({ setIsLogin }) => {
     );
 };
 
-export default Login;
+export default LoginForm;

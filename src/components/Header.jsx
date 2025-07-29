@@ -1,16 +1,26 @@
 import { Menu, X } from 'lucide-react';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 
-const Header = () => {
+const Header = ({ isLogin, setIsLogin }) => {
     const [isMobileView, setIsMobileView] = useState(false);
-    const [isLogin, setIsLogin] = useState(false);
 
     const toggleMobileMenu = () => {
         setIsMobileView(!isMobileView);
     };
 
     const navigate = useNavigate();
+
+    const handleLogout = () => {
+        localStorage.setItem("isLoggedIn", JSON.stringify(false));
+        setIsLogin(false);
+        navigate("/");
+    };
+
+    const handleNavClick = (path) => {
+        setIsMobileView(false);
+        if (path) navigate(path);
+    };
 
     return (
         <header className="fixed top-0 w-full z-50 backdrop-blur-md border border-cyan-400/10 rounded-2xl shadow-[0_0_40px_rgba(0,255,255,0.05)]">
@@ -27,15 +37,29 @@ const Header = () => {
                     <li className="list-none cursor-pointer hover:text-red-400 transition">
                         <Link to={"/"}>Home</Link>
                     </li>
-                    <li className="list-none cursor-pointer hover:text-red-400 transition">Movies</li>
-                    <li className="list-none cursor-pointer hover:text-red-400 transition">TV Shows</li>
-                    <li className="list-none cursor-pointer hover:text-red-400 transition">Audio Books</li>
-                    <li className="list-none cursor-pointer hover:text-red-400 transition">DashBoard</li>
+                    <li className="list-none cursor-pointer hover:text-red-400 transition" onClick={() => {handleNavClick("/movies")}}>Movies</li>
+                    <li className="list-none cursor-pointer hover:text-red-400 transition" onClick={() => {handleNavClick("/tv-show")}}>TV Shows</li>
+                    <li className="list-none cursor-pointer hover:text-red-400 transition" onClick={() => {handleNavClick("/audio-book")}}>Audio Books</li>
+                    <li className="list-none cursor-pointer hover:text-red-400 transition" onClick={() => {handleNavClick("/dashboard")}}>DashBoard</li>
                 </nav>
 
                 {/* Login Button (Desktop) */}
                 <div className="hidden md:block">
-                    <button className="px-5 py-2 border bg-indigo-600 text-white rounded-xl hover:bg-indigo-800 transition" onClick={() => navigate("/login")}>Login</button>
+                    {isLogin ? (
+                        <button
+                            onClick={handleLogout}
+                            className="border text-white px-4 py-2 rounded-lg text-sm transition"
+                        >
+                            Log Out
+                        </button>
+                    ) : (
+                        <button
+                            onClick={() => navigate("/login")}
+                            className="border text-white px-4 py-2 rounded-lg text-sm transition"
+                        >
+                            Login
+                        </button>
+                    )}
                 </div>
 
                 {/* Mobile Menu Button */}
@@ -51,24 +75,33 @@ const Header = () => {
                 <div className="md:hidden fixed top-16 left-0 w-full mt-5 z-40 bg-cyan-950 text-white rounded-b-2xl border-t animate-fade-slide">
                     <div className="flex flex-col gap-6 px-6 py-6">
                         <ul className="flex flex-col gap-4 text-lg font-semibold">
-                            <li className="list-none cursor-pointer hover:text-red-400 transition">
+                            <li className="list-none cursor-pointer hover:text-red-400 transition" onClick={() => {handleNavClick("/")} }>
                                 <Link to={"/"}>Home</Link>
                             </li>
-                            <li className="list-none cursor-pointer hover:text-red-400 transition">Movies</li>
-                            <li className="list-none cursor-pointer hover:text-red-400 transition">TV Shows</li>
-                            <li className="list-none cursor-pointer hover:text-red-400 transition">Audio Books</li>
-                            <li className="list-none cursor-pointer hover:text-red-400 transition">
+                            <li className="list-none cursor-pointer hover:text-red-400 transition" onClick={() => {handleNavClick("/movies")} }>Movies</li>
+                            <li className="list-none cursor-pointer hover:text-red-400 transition" onClick={() => {handleNavClick("/tv-show")} }>TV Shows</li>
+                            <li className="list-none cursor-pointer hover:text-red-400 transition" onClick={() => {handleNavClick("/audio-book")} }>Audio Books</li>
+                            <li className="list-none cursor-pointer hover:text-red-400 transition" onClick={() => {handleNavClick("/dashboard")} }>
                                 <Link to={"/dashboard"}>DashBoard</Link>
                             </li>
                         </ul>
 
                         <div className="pt-2">
-                            <button
-                                className="w-full py-3 bg-gradient-to-r from-black via-[#0f172a] to-[#020617] text-white font-bold rounded-xl shadow-lg hover:scale-105 hover:from-red-500 hover:to-red-400 transition-all duration-300 ease-in-out"
-                                onClick={() => navigate("/login")}
-                            >
-                                Login
-                            </button>
+                            {isLogin ? (
+                                <button
+                                    onClick={handleLogout}
+                                    className="w-full border bg-gradient-to-t from-black via-[#0f172a] to-[#020617] text-white px-4 py-2 rounded-lg text-sm transition"
+                                >
+                                    Log Out
+                                </button>
+                            ) : (
+                                <button
+                                    onClick={() => handleNavClick("/login")}
+                                    className="w-full border bg-gradient-to-t from-black via-[#0f172a] to-[#020617] text-white px-4 py-2 rounded-lg text-sm transition"
+                                >
+                                    Login
+                                </button>
+                            )}
                         </div>
                     </div>
                 </div>

@@ -4,18 +4,35 @@ import HomePage from "./pages/HomePage"
 import LoginForm from "./components/LoginForm"
 import { ToastContainer } from "react-toastify"
 import AddMovie from "./pages/AddMovie"
+import { useEffect, useState } from "react"
+import ProtectedRoute from "./components/ProtectedRoute"
+import TVShowSection from "./pages/TvShow"
+import AudioBookSection from "./pages/AudioBookSection"
 
 const App = () => {
+
+    const [isLogin, setIsLogin] = useState(false);
+
+    useEffect(() => {
+        setIsLogin(JSON.parse(localStorage.getItem("isLoggedIn")));
+    }, [])
+
+    useEffect(() => {
+        localStorage.setItem("isLoggedIn", JSON.stringify(isLogin));
+    }, [isLogin])
+
     return (
         <>
             <ToastContainer />
             <BrowserRouter>
-                <Header />                
+                <Header isLogin={isLogin} setIsLogin={setIsLogin} />
                 <Routes>
                     <Route path="/" element={<HomePage />} />
-                    <Route path="/login" element={<LoginForm />} />
-                    <Route path="/add-movie" element={<AddMovie />} />
-                </Routes>
+                    <Route path="/login" element={<LoginForm setIsLogin={setIsLogin} />} />
+                    <Route path="/add-movie" element={<ProtectedRoute Component={AddMovie} />} />
+                    <Route path="/tv-show" element={<TVShowSection />} />
+                    <Route path="/audio-book" element={<AudioBookSection/>} />
+                </Routes>   
             </BrowserRouter>
         </>
     )

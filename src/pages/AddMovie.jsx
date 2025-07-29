@@ -1,18 +1,24 @@
-import React, { useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import LightRays from '../react-css/LightRays';
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import Header from '../components/Header';
+import JoditEditor from 'jodit-react';
+
 
 const AddMovie = () => {
-    const [description, setDescription] = useState('');
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log("Description:", description);
-    };
+    const editor = useRef(null);
+    const [content, setContent] = useState('');
 
-    console.log(ClassicEditor.builtinPlugins);
+    const config = useMemo(() => ({
+        placeholder: 'Start typings...',
+        theme: 'dark',
+        height: 300,
+        toolbarButtonSize: 'middle',
+        style: {
+            background: '#1e1e2e',
+            color: '#ffffff',
+        },
+    }), []);
+
     return (
         <div>
             <div className="py-32 relative min-h-full bg-gradient-to-br bg-zinc-900 flex items-center justify-center px-4 overflow-hidden">
@@ -31,15 +37,12 @@ const AddMovie = () => {
                     />
                 </div>
 
-                <form
-                    onSubmit={handleSubmit}
-                    className="relative z-10 w-full max-w-2xl bg-zinc-900/90 backdrop-blur-sm text-white p-8 rounded-2xl shadow-[0_0_40px_rgba(0,255,255,0.1)] space-y-6"
+                <form className="relative z-10 w-full max-w-2xl bg-zinc-900/90 backdrop-blur-sm text-white p-8 rounded-2xl shadow-[0_0_40px_rgba(0,255,255,0.1)] space-y-6"
                 >
                     <h2 className="text-3xl font-bold text-center mb-4 bg-gradient-to-r from-cyan-400 to-indigo-500 text-transparent bg-clip-text">
                         Add New Movie
                     </h2>
 
-                    {/* Title */}
                     <div>
                         <label htmlFor="title" className="block text-sm font-medium text-zinc-300 mb-1">Title</label>
                         <input
@@ -52,7 +55,6 @@ const AddMovie = () => {
                         />
                     </div>
 
-                    {/* Image URL */}
                     <div>
                         <label htmlFor="image" className="block text-sm font-medium text-zinc-300 mb-1">Image URL</label>
                         <input
@@ -65,38 +67,34 @@ const AddMovie = () => {
                         />
                     </div>
 
-                    {/* Genre */}
                     <div>
                         <label htmlFor="genre" className="block text-sm font-medium text-zinc-300 mb-1">Genre</label>
-                        <input
-                            type="text"
-                            id="genre"
-                            name="genre"
-                            className="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-2 text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-cyan-500"
-                            placeholder="e.g. Action, Comedy, Sci-Fi"
-                            required
-                        />
+                        <select id="genre" class="bg-zinc-800 border border-zinc-800 text-white text-sm rounded-lg block w-full p-2.5">
+                            <option selected>Select Genre</option>
+                            <option value="US">Devotional</option>
+                            <option value="US">Horror</option>
+                            <option value="US">Thriller</option>
+                            <option value="CA">Comedy</option>
+                            <option value="FR">Action</option>
+                            <option value="FR">Fiction</option>
+                            <option value="FR">Non-Fiction</option>
+                            <option value="FR">Poetry</option>
+                            <option value="FR">Drama</option>
+                            <option value="FR">Sci-Fi</option>
+                            <option value="DE">Other</option>
+                        </select>
                     </div>
 
-                    {/* Description */}
                     <div>
                         <label htmlFor="description" className="block text-sm font-medium text-zinc-300 mb-1">Description</label>
-                        <div className="ckeditor-dark bg-zinc-800 border border-zinc-700 rounded-xl overflow-hidden">
-                            <CKEditor
-                                editor={ClassicEditor}
-                                data={description}
-                                onChange={(event, editor) => {
-                                    const data = editor.getData();
-                                    setDescription(data);
-                                }}
-                                config={{
-                                    toolbar: [
-                                        'undo', 'redo', '|',
-                                        'heading', '|', 'bold', 'italic', '|',
-                                        'link', 'insertTable', 'mediaEmbed', '|',
-                                        'bulletedList', 'numberedList', 'indent', 'outdent'
-                                    ]
-                                }}
+                        <div id='description' className="bg-zinc-800 text-white rounded-xl overflow-hidden">
+                            <JoditEditor
+                                ref={editor}
+                                value={content}
+                                config={config}
+                                tabIndex={1}
+                                onBlur={newContent => setContent(newContent)}
+                                onChange={() => { }}
                             />
                         </div>
                     </div>
