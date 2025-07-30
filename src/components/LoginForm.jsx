@@ -24,7 +24,7 @@ const LoginForm = ({ setIsLogin, isLogin }) => {
 
         if (input.email === 'admin@gmail.com' && input.password === 'admin@123') {
             toast.success('Logged in successfully!', { autoClose: 1000 });
-            navigate("/add-movie")
+            navigate("/")
             setIsLogin(true)
         } else {
             toast.error('Invalid email or password.');

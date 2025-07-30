@@ -37,10 +37,14 @@ const Header = ({ isLogin, setIsLogin }) => {
                     <li className="list-none cursor-pointer hover:text-red-400 transition">
                         <Link to={"/"}>Home</Link>
                     </li>
-                    <li className="list-none cursor-pointer hover:text-red-400 transition" onClick={() => {handleNavClick("/movies")}}>Movies</li>
-                    <li className="list-none cursor-pointer hover:text-red-400 transition" onClick={() => {handleNavClick("/tv-show")}}>TV Shows</li>
-                    <li className="list-none cursor-pointer hover:text-red-400 transition" onClick={() => {handleNavClick("/audio-book")}}>Audio Books</li>
-                    <li className="list-none cursor-pointer hover:text-red-400 transition" onClick={() => {handleNavClick("/dashboard")}}>DashBoard</li>
+                    <li className="list-none cursor-pointer hover:text-red-400 transition" onClick={() => { handleNavClick("/tv-show") }}>TV Shows</li>
+                    <li className="list-none cursor-pointer hover:text-red-400 transition" onClick={() => { handleNavClick("/audio-book") }}>Audio Books</li>
+                    {
+                        isLogin && <li className="list-none cursor-pointer hover:text-red-400 transition" onClick={() => { handleNavClick("/dashboard") }}>DashBoard</li>
+                    }
+                    {
+                        isLogin && <li className="list-none cursor-pointer hover:text-red-400 transition" onClick={() => { handleNavClick("/add-movie") }}>Add Movie</li>
+                    }
                 </nav>
 
                 {/* Login Button (Desktop) */}
@@ -75,15 +79,16 @@ const Header = ({ isLogin, setIsLogin }) => {
                 <div className="md:hidden fixed top-16 left-0 w-full mt-5 z-40 bg-cyan-950 text-white rounded-b-2xl border-t animate-fade-slide">
                     <div className="flex flex-col gap-6 px-6 py-6">
                         <ul className="flex flex-col gap-4 text-lg font-semibold">
-                            <li className="list-none cursor-pointer hover:text-red-400 transition" onClick={() => {handleNavClick("/")} }>
+                            <li className="list-none cursor-pointer hover:text-red-400 transition" onClick={() => { handleNavClick("/") }}>
                                 <Link to={"/"}>Home</Link>
                             </li>
-                            <li className="list-none cursor-pointer hover:text-red-400 transition" onClick={() => {handleNavClick("/movies")} }>Movies</li>
-                            <li className="list-none cursor-pointer hover:text-red-400 transition" onClick={() => {handleNavClick("/tv-show")} }>TV Shows</li>
-                            <li className="list-none cursor-pointer hover:text-red-400 transition" onClick={() => {handleNavClick("/audio-book")} }>Audio Books</li>
-                            <li className="list-none cursor-pointer hover:text-red-400 transition" onClick={() => {handleNavClick("/dashboard")} }>
-                                <Link to={"/dashboard"}>DashBoard</Link>
-                            </li>
+                            <li className="list-none cursor-pointer hover:text-red-400 transition" onClick={() => { handleNavClick("/tv-show") }}>TV Shows</li>
+                            <li className="list-none cursor-pointer hover:text-red-400 transition" onClick={() => { handleNavClick("/audio-book") }}>Audio Books</li>
+                            {
+                                isLogin && <li className="list-none cursor-pointer hover:text-red-400 transition" onClick={() => { handleNavClick("/dashboard") }}>
+                                    <Link to={"/dashboard"}>DashBoard</Link>
+                                </li>
+                            }
                         </ul>
 
                         <div className="pt-2">

@@ -5,3 +5,7 @@
 .jodit-container{
     background-color: black !important;
 }
+
+.jodit-wysiwyg{
+    padding: 0px 20px !important;
+}

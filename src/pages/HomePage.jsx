@@ -24,8 +24,16 @@ const movieDetails = [
     },
 ];
 
-const HomePage = () => {
+const HomePage = ({ isLogin }) => {
     const navigate = useNavigate();
+
+    const handleClick = () => {
+        if(isLogin === true){
+            navigate("/dashboard");
+        } else{
+            navigate("/login")
+        }
+    }
 
     return (
         <div className="text-white relative">
@@ -76,7 +84,7 @@ const HomePage = () => {
                                     <div className="button mt-2 flex gap-5">
                                         <button
                                             className='py-2 sm:py-3 px-6 sm:px-8 bg-red-600 rounded-xl text-sm sm:text-base hover:bg-red-800 transition'
-                                            onClick={() => navigate("/login")}
+                                            onClick={handleClick}
                                         >
                                             Discover Now
                                         </button>

@@ -8,6 +8,7 @@ import { useEffect, useState } from "react"
 import ProtectedRoute from "./components/ProtectedRoute"
 import TVShowSection from "./pages/TvShow"
 import AudioBookSection from "./pages/AudioBookSection"
+import Dashboard from "./pages/Dashboard"
 
 const App = () => {
 
@@ -27,9 +28,10 @@ const App = () => {
             <BrowserRouter>
                 <Header isLogin={isLogin} setIsLogin={setIsLogin} />
                 <Routes>
-                    <Route path="/" element={<HomePage />} />
+                    <Route path="/" element={<HomePage isLogin={isLogin} />} />
                     <Route path="/login" element={<LoginForm setIsLogin={setIsLogin} />} />
                     <Route path="/add-movie" element={<ProtectedRoute Component={AddMovie} />} />
+                    <Route path="/dashboard" element={<ProtectedRoute Component={Dashboard} />} />
                     <Route path="/tv-show" element={<TVShowSection />} />
                     <Route path="/audio-book" element={<AudioBookSection/>} />
                 </Routes>   

@@ -2,13 +2,18 @@ import React, { useMemo, useRef, useState } from 'react';
 import LightRays from '../react-css/LightRays';
 import JoditEditor from 'jodit-react';
 
-
 const AddMovie = () => {
+
+    const [input, setInput] = useState({
+        title: '', image: '', genre: '', description: ''
+    });
+    const [error, setErrors] = useState({});
 
     const editor = useRef(null);
     const [content, setContent] = useState('');
 
     const config = useMemo(() => ({
+        readonly: false,
         placeholder: 'Start typings...',
         theme: 'dark',
         height: 300,
@@ -17,7 +22,64 @@ const AddMovie = () => {
             background: '#1e1e2e',
             color: '#ffffff',
         },
+        toolbarAdaptive: false,
+        toolbarSticky: false,
+        toolbar: true,
+        buttons: [
+            'bold', 'italic', 'underline', 'strikethrough', '|',
+            'ul', 'ol', '|',
+            'outdent', 'indent', '|',
+            'font', 'fontsize', 'brush', '|',
+            'paragraph', 'align', 'undo', 'redo', '|',
+            'hr', 'table', 'link', 'symbol', 'copyformat',
+        ],
+        buttonsXS: [
+            'bold', 'italic', 'underline', '|',
+            'ul', 'ol', '|',
+            'paragraph', 'fontsize', 'brush'
+        ],
+        askBeforePasteHTML: false,
+        askBeforePasteFromWord: false,
+        cleanHTML: {
+            fillEmptyParagraph: false,
+            removeEmptyElements: false,
+            removeEmptyAttributes: false
+        },
+        enter: 'P',
     }), []);
+
+    const handleChange = (e) => {
+        setInput({ ...input, [e.target.id]: e.target.value });
+        setErrors({ ...error, [e.target.id]: "" })
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        const validationErrors = {}
+
+        if (input.title.trim() === '') {
+            validationErrors.title = "Enter Valid Title"
+        }
+
+        if (input.image.trim() === '') {
+            validationErrors.image = "Enter Valid Image URL"
+        }
+
+        if (input.genre.trim() === '') {
+            validationErrors.genre = "Select Valid Genre"
+        }
+
+        if (input.description.trim() === '') {
+            validationErrors.description = "Enter Valid Description"
+        }
+
+        setErrors(validationErrors);
+
+        if (Object.keys(validationErrors).length > 0) return;
+
+        
+    }
 
     return (
         <div>
@@ -37,68 +99,102 @@ const AddMovie = () => {
                     />
                 </div>
 
-                <form className="relative z-10 w-full max-w-2xl bg-zinc-900/90 backdrop-blur-sm text-white p-8 rounded-2xl shadow-[0_0_40px_rgba(0,255,255,0.1)] space-y-6"
-                >
+                <form onSubmit={handleSubmit} className="relative z-10 w-full max-w-2xl bg-zinc-900/90 backdrop-blur-sm text-white p-8 rounded-2xl shadow-[0_0_40px_rgba(0,255,255,0.1)] space-y-6">
                     <h2 className="text-3xl font-bold text-center mb-4 bg-gradient-to-r from-cyan-400 to-indigo-500 text-transparent bg-clip-text">
                         Add New Movie
                     </h2>
 
+                    {/* Title Input */}
                     <div>
                         <label htmlFor="title" className="block text-sm font-medium text-zinc-300 mb-1">Title</label>
                         <input
                             type="text"
                             id="title"
-                            name="title"
+                            value={input.title}
                             className="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-2 text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-cyan-500"
                             placeholder="Movie Title"
-                            required
+                            onChange={handleChange}
+
                         />
+                        {
+                            error && <p className='text-red-600'>{error.title}</p>
+                        }
                     </div>
 
+                    {/* Image URL Input */}
                     <div>
                         <label htmlFor="image" className="block text-sm font-medium text-zinc-300 mb-1">Image URL</label>
                         <input
                             type="url"
                             id="image"
-                            name="image"
+                            value={input.image}
                             className="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-2 text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-cyan-500"
                             placeholder="https://example.com/poster.jpg"
-                            required
+                            onChange={handleChange}
+
                         />
+                        {
+                            error && <p className='text-red-600'>{error.image}</p>
+                        }
+                        {
+                            input.image !== '' &&
+                            <img
+                                src={input.image}
+                                alt={input.title}
+                                className='w-52 h-24 object-cover my-4 rounded-md border border-zinc-700'
+                            />
+                        }
                     </div>
 
+                    {/* Genre Select */}
                     <div>
                         <label htmlFor="genre" className="block text-sm font-medium text-zinc-300 mb-1">Genre</label>
-                        <select id="genre" class="bg-zinc-800 border border-zinc-800 text-white text-sm rounded-lg block w-full p-2.5">
-                            <option selected>Select Genre</option>
-                            <option value="US">Devotional</option>
-                            <option value="US">Horror</option>
-                            <option value="US">Thriller</option>
-                            <option value="CA">Comedy</option>
-                            <option value="FR">Action</option>
-                            <option value="FR">Fiction</option>
-                            <option value="FR">Non-Fiction</option>
-                            <option value="FR">Poetry</option>
-                            <option value="FR">Drama</option>
-                            <option value="FR">Sci-Fi</option>
-                            <option value="DE">Other</option>
+                        <select
+                            id="genre"
+                            value={input.genre}
+                            className="bg-zinc-800 border border-zinc-700 text-white text-sm rounded-lg block w-full p-2.5"
+                            onChange={handleChange}
+                        >
+                            <option value="">Select Genre</option>
+                            <option value="Devotional">Devotional</option>
+                            <option value="Horror">Horror</option>
+                            <option value="Thriller">Thriller</option>
+                            <option value="Comedy">Comedy</option>
+                            <option value="Action">Action</option>
+                            <option value="Fiction">Fiction</option>
+                            <option value="Non-Fiction">Non-Fiction</option>
+                            <option value="Poetry">Poetry</option>
+                            <option value="Drama">Drama</option>
+                            <option value="Sci-Fi">Sci-Fi</option>
+                            <option value="Other">Other</option>
                         </select>
+                        {
+                            error && <p className='text-red-600'>{error.genre}</p>
+                        }
                     </div>
 
+                    {/* Description (Jodit Editor) */}
                     <div>
                         <label htmlFor="description" className="block text-sm font-medium text-zinc-300 mb-1">Description</label>
-                        <div id='description' className="bg-zinc-800 text-white rounded-xl overflow-hidden">
+                        <div id="description" className="bg-zinc-800 text-white rounded-xl overflow-hidden">
                             <JoditEditor
                                 ref={editor}
-                                value={content}
+                                value={input.description || ''}
                                 config={config}
                                 tabIndex={1}
                                 onBlur={newContent => setContent(newContent)}
-                                onChange={() => { }}
+                                onChange={newContent => {
+                                    setInput({ ...input, description: newContent });
+                                    setErrors({ ...error, description: '' });
+                                }}
                             />
                         </div>
+                        {
+                            error && <p className='text-red-600'>{error.description}</p>
+                        }
                     </div>
 
+                    {/* Submit Button */}
                     <div className="flex justify-end">
                         <button
                             type="submit"
