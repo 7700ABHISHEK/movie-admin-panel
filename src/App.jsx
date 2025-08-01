@@ -9,6 +9,8 @@ import ProtectedRoute from "./components/ProtectedRoute"
 import TVShowSection from "./pages/TvShow"
 import AudioBookSection from "./pages/AudioBookSection"
 import Dashboard from "./pages/Dashboard"
+import EditMovie from "./pages/EditMovie"
+import MovieDescription from "./pages/MovieDescription"
 
 const App = () => {
 
@@ -34,6 +36,8 @@ const App = () => {
                     <Route path="/dashboard" element={<ProtectedRoute Component={Dashboard} />} />
                     <Route path="/tv-show" element={<TVShowSection />} />
                     <Route path="/audio-book" element={<AudioBookSection/>} />
+                    <Route path={"/edit-movie/:id"} element={<ProtectedRoute Component={EditMovie} />}/>
+                    <Route path={"/movie/:id"} element={<ProtectedRoute Component={MovieDescription} />}/>
                 </Routes>   
             </BrowserRouter>
         </>

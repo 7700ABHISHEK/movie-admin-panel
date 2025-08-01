@@ -9,3 +9,19 @@
 .jodit-wysiwyg{
     padding: 0px 20px !important;
 }
+
+.dashboard-bg{
+    background-image: url('/bg-image/Mahavatar-narsimha.jpg');
+}
+
+.login-bg{
+    background-image: url('/bg-image/login-bg.avif');
+}
+
+.add-bg{
+    background-image: url('/bg-image/add-image-bg.jpeg');
+}
+
+.view-bg{
+    background-image: url('/bg-image/view-bg.jpg');
+}

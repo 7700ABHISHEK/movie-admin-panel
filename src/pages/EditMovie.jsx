@@ -1,10 +1,10 @@
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import LightRays from '../react-css/LightRays';
 import JoditEditor from 'jodit-react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
-const AddMovie = () => {
+const EditMovie = () => {
 
     const [input, setInput] = useState({
         title: '', image: '', genre: '', description: ''
@@ -12,7 +12,23 @@ const AddMovie = () => {
     const [error, setErrors] = useState({});
     const [content, setContent] = useState('');
 
+    const { id } = useParams();
+
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const fetchMovie = async () => {
+            try {
+                const res = await axios.get(`http://localhost:5000/movies/${id}`);
+                setInput(res.data);
+                setContent(res.data.description);
+            } catch (error) {
+                console.error("Error fetching movie data", error);
+            }
+        };
+
+        fetchMovie();
+    }, [id]);
 
     const editor = useRef(null);
 
@@ -83,7 +99,7 @@ const AddMovie = () => {
         if (Object.keys(validationErrors).length > 0) return;
 
         const addMovie = async () => {
-            let movie = await axios.post("http://localhost:5000/movies", input)
+            await axios.put(`http://localhost:5000/movies/${id}`, input);
         }
         addMovie();
 
@@ -111,17 +127,17 @@ const AddMovie = () => {
 
                 <form onSubmit={handleSubmit} className="relative z-10 w-full max-w-2xl bg-zinc-900/90 backdrop-blur-sm text-white p-8 rounded-2xl shadow-[0_0_40px_rgba(0,255,255,0.1)] space-y-6">
                     <h2 className="text-3xl font-bold text-center mb-4 bg-gradient-to-r from-cyan-400 to-indigo-500 text-transparent bg-clip-text">
-                        Add New Movie
+                        Edit Movie
                     </h2>
 
                     {/* Title Input */}
                     <div>
-                        <label htmlFor="title" className="block text-sm font-medium text-white mb-1">Title</label>
+                        <label htmlFor="title" className="block text-sm font-medium text-zinc-300 mb-1">Title</label>
                         <input
                             type="text"
                             id="title"
                             value={input.title}
-                            className="w-full bg-black border rounded-xl px-4 py-2 text-white placeholder-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                            className="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-2 text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-cyan-500"
                             placeholder="Movie Title"
                             onChange={handleChange}
 
@@ -133,12 +149,12 @@ const AddMovie = () => {
 
                     {/* Image URL Input */}
                     <div>
-                        <label htmlFor="image" className="block text-sm font-medium text-white mb-1">Image URL</label>
+                        <label htmlFor="image" className="block text-sm font-medium text-zinc-300 mb-1">Image URL</label>
                         <input
                             type="url"
                             id="image"
                             value={input.image}
-                            className="w-full bg-black border rounded-xl px-4 py-2 text-white placeholder-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                            className="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-2 text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-cyan-500"
                             placeholder="https://example.com/poster.jpg"
                             onChange={handleChange}
 
@@ -158,11 +174,11 @@ const AddMovie = () => {
 
                     {/* Genre Select */}
                     <div>
-                        <label htmlFor="genre" className="block text-sm font-medium text-white mb-1">Genre</label>
+                        <label htmlFor="genre" className="block text-sm font-medium text-zinc-300 mb-1">Genre</label>
                         <select
                             id="genre"
                             value={input.genre}
-                            className="bg-black border text-white textblack-lg block w-full p-2.5"
+                            className="bg-zinc-800 border border-zinc-700 text-white text-sm rounded-lg block w-full p-2.5"
                             onChange={handleChange}
                         >
                             <option value="">Select Genre</option>
@@ -185,8 +201,8 @@ const AddMovie = () => {
 
                     {/* Description (Jodit Editor) */}
                     <div>
-                        <label htmlFor="description" className="block text-sm font-medium text-white mb-1">Description</label>
-                        <div id="description" className="bg-white text-w overflow-hidden">
+                        <label htmlFor="description" className="block text-sm font-medium text-zinc-300 mb-1">Description</label>
+                        <div id="description" className="bg-zinc-800 text-white rounded-xl overflow-hidden">
                             <JoditEditor
                                 ref={editor}
                                 value={input.description || ''}
@@ -208,7 +224,7 @@ const AddMovie = () => {
                     <div className="flex justify-end">
                         <button
                             type="submit"
-                            className="bg-cyan-600 hover:bg-cyan-700 text-white px-4 py-2 rounded-xl font-medium transition duration-200 shadow-lg"
+                            className="bg-cyan-600 hover:bg-cyan-700 text-white px-6 py-2 rounded-xl font-medium transition duration-200 shadow-lg"
                         >
                             Submit
                         </button>
@@ -219,4 +235,4 @@ const AddMovie = () => {
     );
 };
 
-export default AddMovie;
+export default EditMovie;

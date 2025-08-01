@@ -25,14 +25,12 @@ const Header = ({ isLogin, setIsLogin }) => {
     return (
         <header className="fixed top-0 w-full z-50 backdrop-blur-md border border-cyan-400/10 rounded-2xl shadow-[0_0_40px_rgba(0,255,255,0.05)]">
             <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-                {/* Logo */}
                 <div className="logo">
                     <Link to="/">
                         <img src="/logo-white.png" alt="logo" className="w-14" />
                     </Link>
                 </div>
 
-                {/* Desktop Navigation */}
                 <nav className="hidden md:flex gap-7 text-white">
                     <li className="list-none cursor-pointer hover:text-red-400 transition">
                         <Link to={"/"}>Home</Link>
@@ -47,7 +45,7 @@ const Header = ({ isLogin, setIsLogin }) => {
                     }
                 </nav>
 
-                {/* Login Button (Desktop) */}
+
                 <div className="hidden md:block">
                     {isLogin ? (
                         <button
@@ -66,7 +64,6 @@ const Header = ({ isLogin, setIsLogin }) => {
                     )}
                 </div>
 
-                {/* Mobile Menu Button */}
                 <div className="md:hidden text-white">
                     <button onClick={toggleMobileMenu}>
                         {isMobileView ? <X size={28} /> : <Menu size={28} />}
@@ -74,7 +71,6 @@ const Header = ({ isLogin, setIsLogin }) => {
                 </div>
             </div>
 
-            {/* Mobile Navigation */}
             {isMobileView && (
                 <div className="md:hidden fixed top-16 left-0 w-full mt-5 z-40 bg-cyan-950 text-white rounded-b-2xl border-t animate-fade-slide">
                     <div className="flex flex-col gap-6 px-6 py-6">
@@ -88,6 +84,9 @@ const Header = ({ isLogin, setIsLogin }) => {
                                 isLogin && <li className="list-none cursor-pointer hover:text-red-400 transition" onClick={() => { handleNavClick("/dashboard") }}>
                                     <Link to={"/dashboard"}>DashBoard</Link>
                                 </li>
+                            }
+                            {
+                                isLogin && <li className="list-none cursor-pointer hover:text-red-400 transition" onClick={() => { handleNavClick("/add-movie") }}>Add Movie</li>
                             }
                         </ul>
 
