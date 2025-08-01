@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 
 const MovieDescription = () => {
   const { id } = useParams();
   const [movie, setMovie] = useState(null);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchMovie = async () => {
@@ -52,6 +54,9 @@ const MovieDescription = () => {
             />
           </div>
         </div>
+        <div className='flex justify-center items-center'>
+            <button className='border bg-cyan-700 py-2 px-4 rounded-lg' onClick={() => navigate("/dashboard")}>Dashboard</button>
+          </div>
       </div>
     </section>
   );

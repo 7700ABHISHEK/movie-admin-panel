@@ -3,6 +3,7 @@ import LightRays from '../react-css/LightRays';
 import JoditEditor from 'jodit-react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const EditMovie = () => {
 
@@ -98,11 +99,12 @@ const EditMovie = () => {
 
         if (Object.keys(validationErrors).length > 0) return;
 
-        const addMovie = async () => {
+        const editMovie = async () => {
             await axios.put(`http://localhost:5000/movies/${id}`, input);
         }
-        addMovie();
+        editMovie();
 
+        toast.success("Movie Edited Successfully", { autoClose: 1000 });
         navigate("/dashboard")
 
     }

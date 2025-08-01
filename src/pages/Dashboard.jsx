@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const Dashboard = () => {
     const [movies, setMovies] = useState([]);
@@ -22,6 +23,7 @@ const Dashboard = () => {
         await axios.delete(`http://localhost:5000/movies/${id}`);
         const updatedMovie = movies.filter(movie => movie.id !== id);
         setMovies(updatedMovie)
+        toast.success("Movie Deleted Successfully");
     }
 
     return (

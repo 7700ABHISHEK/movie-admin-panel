@@ -26,7 +26,7 @@ const LoginForm = ({ setIsLogin }) => {
             setIsLogin(true);
             navigate('/');
         } else {
-            toast.error('Invalid email or password.');
+            toast.error('Invalid email or password.', { autoClose: 1000 });
         }
     };
 

@@ -1,6 +1,7 @@
 import { Menu, X } from 'lucide-react';
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const Header = ({ isLogin, setIsLogin }) => {
     const [isMobileView, setIsMobileView] = useState(false);
@@ -14,6 +15,7 @@ const Header = ({ isLogin, setIsLogin }) => {
     const handleLogout = () => {
         localStorage.setItem("isLoggedIn", JSON.stringify(false));
         setIsLogin(false);
+        toast.success("Log Out successfully", { autoClose: 1000 });
         navigate("/");
     };
 

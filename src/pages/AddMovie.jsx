@@ -3,6 +3,7 @@ import LightRays from '../react-css/LightRays';
 import JoditEditor from 'jodit-react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const AddMovie = () => {
 
@@ -52,6 +53,15 @@ const AddMovie = () => {
         enter: 'P',
     }), []);
 
+    const validateImageURL = (url) => {
+        return new Promise((resolve) => {
+            const img = new Image();
+            img.onload = () => resolve(true);
+            img.onerror = () => resolve(false);
+            img.src = url;
+        });
+    };
+
     const handleChange = (e) => {
         setInput({ ...input, [e.target.id]: e.target.value });
         setErrors({ ...error, [e.target.id]: "" })
@@ -66,8 +76,9 @@ const AddMovie = () => {
             validationErrors.title = "Enter Valid Title"
         }
 
-        if (input.image.trim() === '') {
-            validationErrors.image = "Enter Valid Image URL"
+        const isImageValid = validateImageURL(input.image);
+        if (!isImageValid) {
+            validationErrors.image = 'Enter a valid image URL';
         }
 
         if (input.genre.trim() === '') {
@@ -87,6 +98,7 @@ const AddMovie = () => {
         }
         addMovie();
 
+        toast.success("Movie Added Successfully", { autoClose: 1000 });
         navigate("/dashboard")
 
     }
