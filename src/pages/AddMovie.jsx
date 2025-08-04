@@ -36,12 +36,12 @@ const AddMovie = () => {
             'outdent', 'indent', '|',
             'font', 'fontsize', 'brush', '|',
             'paragraph', 'align', 'undo', 'redo', '|',
-            'hr', 'table', 'link', 'symbol', 'copyformat',
+            'hr', 'table', 'link', 'symbol', 'copyformat'
         ],
         buttonsXS: [
             'bold', 'italic', 'underline', '|',
             'ul', 'ol', '|',
-            'paragraph', 'fontsize', 'brush'
+            'paragraph', 'fontsize', 'brush',
         ],
         askBeforePasteHTML: false,
         askBeforePasteFromWord: false,
@@ -52,15 +52,6 @@ const AddMovie = () => {
         },
         enter: 'P',
     }), []);
-
-    const validateImageURL = (url) => {
-        return new Promise((resolve) => {
-            const img = new Image();
-            img.onload = () => resolve(true);
-            img.onerror = () => resolve(false);
-            img.src = url;
-        });
-    };
 
     const handleChange = (e) => {
         setInput({ ...input, [e.target.id]: e.target.value });
@@ -76,8 +67,7 @@ const AddMovie = () => {
             validationErrors.title = "Enter Valid Title"
         }
 
-        const isImageValid = validateImageURL(input.image);
-        if (!isImageValid) {
+        if (input.image.trim() === '') {
             validationErrors.image = 'Enter a valid image URL';
         }
 
@@ -122,18 +112,17 @@ const AddMovie = () => {
                 </div>
 
                 <form onSubmit={handleSubmit} className="relative z-10 w-full max-w-2xl bg-zinc-900/90 backdrop-blur-sm text-white p-8 rounded-2xl shadow-[0_0_40px_rgba(0,255,255,0.1)] space-y-6">
-                    <h2 className="text-3xl font-bold text-center mb-4 bg-gradient-to-r from-cyan-400 to-indigo-500 text-transparent bg-clip-text">
+                    <h2 className="text-3xl font-bold text-center mb-4 text-white text-transparent bg-clip-text">
                         Add New Movie
                     </h2>
 
-                    {/* Title Input */}
                     <div>
                         <label htmlFor="title" className="block text-sm font-medium text-white mb-1">Title</label>
                         <input
                             type="text"
                             id="title"
                             value={input.title}
-                            className="w-full bg-black border rounded-xl px-4 py-2 text-white placeholder-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                            className="w-full bg-black border rounded-xl px-4 py-2 text-white placeholder-white focus:outline-none focus:ring-2 focus:ring-cyan-500 placeholder:opacity-40"
                             placeholder="Movie Title"
                             onChange={handleChange}
 
@@ -143,14 +132,13 @@ const AddMovie = () => {
                         }
                     </div>
 
-                    {/* Image URL Input */}
                     <div>
                         <label htmlFor="image" className="block text-sm font-medium text-white mb-1">Image URL</label>
                         <input
                             type="url"
                             id="image"
                             value={input.image}
-                            className="w-full bg-black border rounded-xl px-4 py-2 text-white placeholder-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                            className="w-full bg-black border rounded-xl px-4 py-2 text-white placeholder-white focus:outline-none focus:ring-2 focus:ring-cyan-500 placeholder:opacity-40"
                             placeholder="https://example.com/poster.jpg"
                             onChange={handleChange}
 
@@ -161,20 +149,19 @@ const AddMovie = () => {
                         {
                             input.image !== '' &&
                             <img
-                                src={input.image}
+                                onError={(e) => e.target.src = "/bg-image/empty.avif"} src={input.image ? input.image : "/bg-image/empty.avif"}
                                 alt={input.title}
                                 className='w-52 h-24 object-cover my-4 rounded-md border border-zinc-700'
                             />
                         }
                     </div>
 
-                    {/* Genre Select */}
                     <div>
                         <label htmlFor="genre" className="block text-sm font-medium text-white mb-1">Genre</label>
                         <select
                             id="genre"
                             value={input.genre}
-                            className="bg-black border text-white textblack-lg block w-full p-2.5"
+                            className="bg-black border text-white textblack-lg block w-full p-2.5 rounded-xl"
                             onChange={handleChange}
                         >
                             <option value="">Select Genre</option>
@@ -195,7 +182,6 @@ const AddMovie = () => {
                         }
                     </div>
 
-                    {/* Description (Jodit Editor) */}
                     <div>
                         <label htmlFor="description" className="block text-sm font-medium text-white mb-1">Description</label>
                         <div id="description" className="bg-white text-w overflow-hidden">
@@ -216,7 +202,6 @@ const AddMovie = () => {
                         }
                     </div>
 
-                    {/* Submit Button */}
                     <div className="flex justify-end">
                         <button
                             type="submit"

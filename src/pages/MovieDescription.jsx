@@ -31,7 +31,7 @@ const MovieDescription = () => {
 
   return (
     <section className="min-h-screen view-bg bg-center bg-no-repeat bg-cover pt-24 bg-gradient-to-b from-black via-zinc-900 to-black text-white py-8 flex items-center justify-center">
-      <div className="w-full max-w-5xl bg-white/10 backdrop-blur-md border border-white/20 rounded-xl shadow-2xl p-6 sm:p-10">
+      <div className="w-full max-w-5xl bg-black/75 backdrop-blur-xl border border-white/20 rounded-xl shadow-2xl p-6 sm:p-10">
         <div className="flex flex-col sm:flex-row gap-6 items-center">
           <img
             src={movie.image}
@@ -55,8 +55,8 @@ const MovieDescription = () => {
           </div>
         </div>
         <div className='flex justify-center items-center'>
-            <button className='border bg-cyan-700 py-2 px-4 rounded-lg' onClick={() => navigate("/dashboard")}>Dashboard</button>
-          </div>
+          <button className=' bg-cyan-700 py-2 px-4 rounded-lg' onClick={() => navigate("/dashboard")}>Dashboard</button>
+        </div>
       </div>
     </section>
   );

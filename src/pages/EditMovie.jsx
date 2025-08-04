@@ -128,7 +128,7 @@ const EditMovie = () => {
                 </div>
 
                 <form onSubmit={handleSubmit} className="relative z-10 w-full max-w-2xl bg-zinc-900/90 backdrop-blur-sm text-white p-8 rounded-2xl shadow-[0_0_40px_rgba(0,255,255,0.1)] space-y-6">
-                    <h2 className="text-3xl font-bold text-center mb-4 bg-gradient-to-r from-cyan-400 to-indigo-500 text-transparent bg-clip-text">
+                    <h2 className="text-3xl font-bold text-center mb-4 text-white bg-clip-text">
                         Edit Movie
                     </h2>
 

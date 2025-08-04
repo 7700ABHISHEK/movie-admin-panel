@@ -29,7 +29,7 @@ const Dashboard = () => {
     return (
         <section className="relative w-full min-h-screen dashboard-bg bg-no-repeat bg-cover bg-center">
             <div className="absolute inset-0 bg-black/30 z-0 flex items-center justify-center min-h-screen px-2 sm:px-4">
-                <div className="relative z-10 w-full max-w-6xl backdrop-blur-md bg-white/10 border border-cyan-500/20 rounded-2xl shadow-[0_0_60px_rgba(0,255,255,0.15)] p-4 sm:p-8">
+                <div className="relative z-10 w-full max-w-6xl backdrop-blur-md bg-white/10 rounded-2xl shadow-[0_0_60px_rgba(0,255,255,0.15)] p-4 sm:p-8">
                     <h2 className="text-2xl sm:text-3xl font-bold text-cyan-400 mb-4 sm:mb-6 text-center drop-shadow-md">
                         Movie List
                     </h2>
